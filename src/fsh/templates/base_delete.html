@@ -1,0 +1,16 @@
+{% extends 'base_form.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Delete' %} {{ object }}{% endblock %}
+{% block card-title %}{% trans 'Delete' %} {{ object }}?{% endblock %}
+
+
+{% block card-content %}
+<div class="container p-3">
+  <form method="post">
+    {% csrf_token %}
+    <p>{% blocktrans %}Are you sure you want to delete "{{ object }}"?{% endblocktrans %}</p>
+    <input type="submit" value="{% trans 'Delete' %}" class="btn btn-success">
+  </form>
+</div>
+{% endblock %}

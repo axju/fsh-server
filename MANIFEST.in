@@ -1,0 +1,3 @@
+include README.md
+recursive-include src/fsh/templates *
+recursive-include src/fsh/static *
