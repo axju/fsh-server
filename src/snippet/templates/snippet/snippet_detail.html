@@ -1,0 +1,23 @@
+{% extends 'base_card.html' %}
+{% load pygmentify_tags %}
+{% load i18n %}
+
+{% block head-extra %}<link rel="stylesheet" href="{% pygmentify_css %}">{% endblock %}
+
+
+{% block title %}{{object.title}}{% endblock %}
+{% block card-title %}[{{object.language}}] {{object.title}}{% endblock %}
+
+{% block card-content %}
+<div class="container p-3">
+  {% pygmentify %}
+    {% spaceless %}
+    <pre class="{{object.language}}">
+    {{object.source}}
+    </pre>
+    {% endspaceless %}
+  {% endpygmentify %}
+  <hr>
+  <p>{{object.description}}</p>
+</div>
+{% endblock %}

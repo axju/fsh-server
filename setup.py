@@ -9,6 +9,7 @@ setup(
     install_requires=[
         'django',
         'django-crispy-forms',
+        'django-pygmentify',
     ],
     setup_requires=[
         'setuptools_scm',
