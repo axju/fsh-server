@@ -37,6 +37,8 @@ PYGMENTIFY = {
     'inline': 'table'
 }
 
+LOGIN_URL = 'login'
+
 # Application definition
 
 INSTALLED_APPS = [

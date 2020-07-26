@@ -30,7 +30,10 @@ class SnippetLike(models.Model):
 
 
 class SnippetComment(models.Model):
-    liked_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+')
     snippet = models.ForeignKey(Snippet, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
+
+    class Meta:
+        ordering = ['-created_at']

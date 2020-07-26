@@ -24,9 +24,9 @@
       {% endpygmentify %}
     </div>
     <div class="card-footer">
-      by <a href="#">{{snippet.user}}</a> at {{snippet.created_at|naturaltime}}
-      <a href="{% url 'snippet:detail' pk=snippet.pk %}">{% trans 'more' %}</a>
-      {{snippet.likes.all.count}} <a href="{% url 'snippet:like' pk=snippet.pk %}?next={{request.get_full_path}}">{% trans 'like' %}</a>
+      by <a href="#">{{snippet.user}}</a> at {{snippet.created_at|naturaltime}} - 
+      {{snippet.comments.all.count}} <a href="{% url 'snippet:detail' pk=snippet.pk %}">{% trans 'Comments' %}</a> -
+      {{snippet.likes.all.count}} <a href="{% url 'snippet:like' pk=snippet.pk %}?next={{request.get_full_path}}">{% trans 'Likes' %}</a>
     </div>
   </div>
   {% endfor %}

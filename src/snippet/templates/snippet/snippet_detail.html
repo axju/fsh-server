@@ -1,23 +1,50 @@
-{% extends 'base_card.html' %}
+{% extends 'base.html' %}
 {% load pygmentify_tags %}
+{% load crispy_forms_tags %}
 {% load i18n %}
+{% load humanize %}
 
 {% block head-extra %}<link rel="stylesheet" href="{% pygmentify_css %}">{% endblock %}
 
 
 {% block title %}{{object.title}}{% endblock %}
-{% block card-title %}[{{object.language}}] {{object.title}}{% endblock %}
 
-{% block card-content %}
-<div class="container p-3">
-  {% pygmentify %}
-    {% spaceless %}
-    <pre class="{{object.language}}">
-    {{object.source}}
-    </pre>
-    {% endspaceless %}
-  {% endpygmentify %}
+{% block content %}
+<div class="container">
+  <div class="card mb-3">
+    <h3 class="card-header">[{{object.language}}] {{object.title}}</h3>
+    <div class="card-body">
+      {% pygmentify %}
+        {% spaceless %}
+        <pre class="{{object.language}}">
+        {{object.source}}
+        </pre>
+        {% endspaceless %}
+      {% endpygmentify %}
+    </div>
+    <div class="card-footer">
+      by <a href="#">{{object.user}}</a> at {{object.created_at|naturaltime}}
+      <a href="{% url 'snippet:detail' pk=snippet.pk %}">{% trans 'more' %}</a>
+      {{object.likes.all.count}} <a href="{% url 'snippet:like' pk=object.pk %}?next={{request.get_full_path}}">{% trans 'like' %}</a>
+    </div>
+  </div>
+
+
+
+  <h3>{% trans 'Comments' %}</h3>
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'snippet:comment' pk=snippet.pk %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    {% block form-btn %}<input type="submit" value="{% trans 'Save' %}" class="btn btn-success">{% endblock %}
+  </form>
   <hr>
-  <p>{{object.description}}</p>
+  {% endif %}
+
+  {% for comment in object.comments.all %}
+    <p>From <a href="#">{{comment.user}}</a> at {{comment.created_at|naturaltime}}: {{comment.text}}</p>
+  {% endfor %}
+
 </div>
+
 {% endblock %}
