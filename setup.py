@@ -10,6 +10,7 @@ setup(
         'django',
         'django-crispy-forms',
         'django-pygmentify',
+        'djangorestframework',
     ],
     setup_requires=[
         'setuptools_scm',

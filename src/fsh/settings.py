@@ -39,6 +39,14 @@ PYGMENTIFY = {
 
 LOGIN_URL = 'login'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,9 +59,11 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'crispy_forms',
+    'rest_framework',
     'pygmentify',
 
     'snippet',
+    'api',
 ]
 
 MIDDLEWARE = [
