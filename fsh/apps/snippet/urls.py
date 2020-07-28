@@ -1,0 +1,15 @@
+from django.urls import path, include
+from rest_framework import routers
+from fsh.apps.snippet.views import SnippetViewSet, SnippetCommentViewSet
+
+
+router = routers.SimpleRouter()
+router.register(r'snippets', SnippetViewSet)
+router.register(r'comments', SnippetCommentViewSet)
+
+
+app_name = 'snippet'
+
+urlpatterns = [
+    path('', include(router.urls)),
+]

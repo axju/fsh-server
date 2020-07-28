@@ -1,16 +1,16 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 setup(
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),
+    packages=['fsh'],
     include_package_data=True,
     use_scm_version=True,
     install_requires=[
         'django',
-        'django-crispy-forms',
         'django-pygmentify',
+        'django-cors-headers',
         'djangorestframework',
+        'djangorestframework-jwt',
     ],
     setup_requires=[
         'setuptools_scm',
