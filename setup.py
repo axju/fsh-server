@@ -7,10 +7,10 @@ setup(
     use_scm_version=True,
     install_requires=[
         'django',
-        'django-pygmentify',
         'django-cors-headers',
         'djangorestframework',
         'djangorestframework-jwt',
+        'pygments',
     ],
     setup_requires=[
         'setuptools_scm',

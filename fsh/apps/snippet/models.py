@@ -52,3 +52,8 @@ class SnippetComment(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+
+class SnippetOfDay(models.Model):
+    day = models.DateField(unique=True)
+    snippet = models.OneToOneField(Snippet, on_delete=models.CASCADE)

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from fsh.apps.snippet.models import Snippet, SnippetLike, SnippetComment #, LANGUAGE_CHOICES, STYLE_CHOICES
+from fsh.apps.snippet.models import Snippet, SnippetLike, SnippetComment, SnippetOfDay #, LANGUAGE_CHOICES, STYLE_CHOICES
 
 class UserSerializer(serializers.ModelSerializer):
     snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
@@ -38,7 +38,17 @@ class SnippetSerializer(serializers.ModelSerializer):
     #highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
     likes = SnippetLikeSerializer(many=True, read_only=True)
     comments = SnippetCommentSerializer(many=True, read_only=True)
+    highlighted = serializers.CharField(read_only=True)
 
     class Meta:
         model = Snippet
         fields = ['id', 'user', 'title', 'source', 'linenos', 'language', 'style', 'highlighted', 'likes', 'comments']
+
+
+class SnippetOfDaySerializer(serializers.ModelSerializer):
+
+    snippet = SnippetSerializer(read_only=True)
+
+    class Meta:
+        model = SnippetOfDay
+        fields = ['id', 'day', 'snippet']

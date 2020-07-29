@@ -14,8 +14,8 @@ import os
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-WORK_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+WORK_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
@@ -48,6 +48,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
     'NON_FIELD_ERRORS_KEY': 'global',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 }
 
 JWT_AUTH = {
@@ -100,7 +103,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'fsh.context_processors.fsh',
             ],
         },
     },

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Snippet
+from .models import Snippet, SnippetOfDay
 
 class SnippetAdmin(admin.ModelAdmin):
     fields = ['title', 'description', 'source', 'language', 'style', 'linenos']
@@ -10,3 +10,4 @@ class SnippetAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 admin.site.register(Snippet, SnippetAdmin)
+admin.site.register(SnippetOfDay)
