@@ -35,10 +35,10 @@ class SnippetCommentSerializer(serializers.ModelSerializer):
 
 class SnippetSerializer(serializers.ModelSerializer):
     user = UserSerializerSmall(read_only=True)
-    highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
+    #highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
     likes = SnippetLikeSerializer(many=True, read_only=True)
     comments = SnippetCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Snippet
-        fields = ['id', 'user', 'title', 'source', 'linenos', 'language', 'style', 'highlight', 'likes', 'comments']
+        fields = ['id', 'user', 'title', 'source', 'linenos', 'language', 'style', 'highlighted', 'likes', 'comments']

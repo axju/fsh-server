@@ -16,8 +16,8 @@ class Snippet(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='snippets')
     title = models.CharField(max_length=100)
-    description = models.TextField()
     source = models.TextField()
+    description = models.TextField(null=True, blank=True)
     linenos = models.BooleanField(default=False)
     language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
     style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
@@ -33,7 +33,7 @@ class Snippet(models.Model):
         lexer = get_lexer_by_name(self.language)
         linenos = 'table' if self.linenos else False
         options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos, full=True, **options)
+        formatter = HtmlFormatter(style=self.style, linenos=linenos, full=False, noclasses=True, **options)
         self.highlighted = highlight(self.source, lexer, formatter)
         super(Snippet, self).save(*args, **kwargs)
 

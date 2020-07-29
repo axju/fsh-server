@@ -2,5 +2,11 @@ from django.contrib import admin
 
 from .models import Snippet
 
+class SnippetAdmin(admin.ModelAdmin):
+    fields = ['title', 'description', 'source', 'language', 'style', 'linenos']
 
-admin.site.register(Snippet)
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+admin.site.register(Snippet, SnippetAdmin)
