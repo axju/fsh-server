@@ -11,8 +11,7 @@ router.registry.extend(snippet_router.registry)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('auth/login/', obtain_jwt_token),
     path('auth/refresh-token/', refresh_jwt_token),
