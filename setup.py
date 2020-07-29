@@ -11,6 +11,9 @@ setup(
         'djangorestframework',
         'djangorestframework-jwt',
         'pygments',
+        'Pillow',
+        'pyyaml',
+        'uritemplate',
     ],
     setup_requires=[
         'setuptools_scm',

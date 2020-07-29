@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+import base64
 from pygments.lexers import get_all_lexers, get_lexer_by_name
 from pygments.styles import get_all_styles
-from pygments.formatters.html import HtmlFormatter
+from pygments.formatters import ImageFormatter
 from pygments import highlight
 
 
@@ -21,7 +22,7 @@ class Snippet(models.Model):
     linenos = models.BooleanField(default=False)
     language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
     style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
-    highlighted = models.TextField()
+    highlighted = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -29,12 +30,17 @@ class Snippet(models.Model):
     def __str__(self):
         return '{}'.format(self.title)
 
+    def count_likes(self):
+        return self.likes.count()
+
+    def count_comments(self):
+        return self.comments.count()
+
     def save(self, *args, **kwargs):
         lexer = get_lexer_by_name(self.language)
-        linenos = 'table' if self.linenos else False
-        options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos, full=False, noclasses=True, **options)
-        self.highlighted = highlight(self.source, lexer, formatter)
+        formatter = ImageFormatter(style=self.style, line_numbers=self.linenos, font_size=15, image_format='PNG', image_pad=20)
+        image_file = highlight(self.source, lexer, formatter)
+        self.highlighted = base64.b64encode(image_file).decode()
         super(Snippet, self).save(*args, **kwargs)
 
 

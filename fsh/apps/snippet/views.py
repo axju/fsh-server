@@ -4,7 +4,7 @@ from rest_framework import renderers
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import SnippetSerializer, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
+from .serializers import SnippetSerializer, SnippetSerializerSmall, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
 from fsh.apps.snippet.models import Snippet, SnippetComment, SnippetOfDay
 
 
@@ -17,6 +17,11 @@ class SnippetViewSet(viewsets.ModelViewSet):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return SnippetSerializerSmall
+        return SnippetSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

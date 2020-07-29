@@ -35,7 +35,6 @@ class SnippetCommentSerializer(serializers.ModelSerializer):
 
 class SnippetSerializer(serializers.ModelSerializer):
     user = UserSerializerSmall(read_only=True)
-    #highlight = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
     likes = SnippetLikeSerializer(many=True, read_only=True)
     comments = SnippetCommentSerializer(many=True, read_only=True)
     highlighted = serializers.CharField(read_only=True)
@@ -43,6 +42,15 @@ class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
         fields = ['id', 'user', 'title', 'source', 'linenos', 'language', 'style', 'highlighted', 'likes', 'comments']
+
+
+class SnippetSerializerSmall(serializers.ModelSerializer):
+    user = UserSerializerSmall(read_only=True)
+    highlighted = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Snippet
+        fields = ['id', 'user', 'title', 'language', 'highlighted', 'count_likes', 'count_comments']
 
 
 class SnippetOfDaySerializer(serializers.ModelSerializer):
