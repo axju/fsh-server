@@ -36,6 +36,11 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timedelta(days=2),
 }
 
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+REST_USE_JWT = True
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -47,6 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'rest_auth.registration',
 
     'rest_framework',
     'corsheaders',

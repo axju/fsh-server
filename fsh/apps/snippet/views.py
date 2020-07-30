@@ -4,13 +4,14 @@ from rest_framework import renderers
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import SnippetSerializer, SnippetSerializerSmall, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
+from .serializers import SnippetSerializer, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
 from fsh.apps.snippet.models import Snippet, SnippetComment, SnippetOfDay
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, ]
 
 
 class SnippetViewSet(viewsets.ModelViewSet):
@@ -19,8 +20,6 @@ class SnippetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return SnippetSerializerSmall
         return SnippetSerializer
 
     def perform_create(self, serializer):
@@ -31,13 +30,11 @@ class SnippetViewSet(viewsets.ModelViewSet):
         snippet = self.get_object()
         return Response(snippet.highlighted)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['get'])
     def like(self, request, *args, **kwargs):
         snippet = self.get_object()
         _, created = snippet.likes.get_or_create(user=request.user)
-        if created:
-            return Response({'status': 'like snippet'})
-        return Response({'status': 'snippet already liked'})
+        return self.retrieve(request, pk=snippet.pk)
 
     @action(detail=False)
     def today(self, request, *args, **kwargs):
