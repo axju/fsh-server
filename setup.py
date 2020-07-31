@@ -8,6 +8,8 @@ setup(
     install_requires=[
         'django',
         'django-cors-headers',
+        'django-allauth',
+        'django-rest-auth',
         'djangorestframework',
         'djangorestframework-jwt',
         'pygments',
