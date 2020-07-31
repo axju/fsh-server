@@ -38,9 +38,10 @@ class Snippet(models.Model):
 
     def save(self, *args, **kwargs):
         lexer = get_lexer_by_name(self.language)
-        formatter = ImageFormatter(style=self.style, line_numbers=self.linenos, font_size=15, image_format='PNG', image_pad=20)
+        formatter = ImageFormatter(style=self.style, line_numbers=self.linenos, font_size=32, image_format='PNG', image_pad=20)
         image_file = highlight(self.source, lexer, formatter)
         self.highlighted = base64.b64encode(image_file).decode()
+        print(len(self.highlighted))
         super(Snippet, self).save(*args, **kwargs)
 
 

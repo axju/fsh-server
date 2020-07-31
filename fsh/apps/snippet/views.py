@@ -2,10 +2,20 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import renderers
 from rest_framework import permissions
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import SnippetSerializer, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
+from .serializers import SnippetSerializer, SnippetCreateSerializer, UserSerializer, SnippetCommentSerializer, SnippetOfDaySerializer
 from fsh.apps.snippet.models import Snippet, SnippetComment, SnippetOfDay
+from .models import LANGUAGE_CHOICES, STYLE_CHOICES
+from fsh import __version__
+
+
+class InfoView(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
+
+    def get(self, request, format=None):
+        return Response({'version': __version__, 'language': LANGUAGE_CHOICES, 'style': STYLE_CHOICES})
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -20,15 +30,12 @@ class SnippetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
 
     def get_serializer_class(self):
+        if self.action == 'create':
+            return SnippetCreateSerializer
         return SnippetSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
-    def highlight(self, request, *args, **kwargs):
-        snippet = self.get_object()
-        return Response(snippet.highlighted)
 
     @action(detail=True, methods=['get'])
     def like(self, request, *args, **kwargs):

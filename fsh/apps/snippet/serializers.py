@@ -34,13 +34,21 @@ class SnippetCommentSerializer(serializers.ModelSerializer):
         fields = ['user', 'created_at', 'text', 'snippet']
 
 
+class SnippetCreateSerializer(serializers.ModelSerializer):
+    highlighted = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Snippet
+        fields = ['title', 'description', 'source', 'language', 'style', 'linenos', 'highlighted']
+
+
 class SnippetSerializer(serializers.ModelSerializer):
     user = UserSerializerSmall(read_only=True)
     highlighted = serializers.CharField(read_only=True)
 
     class Meta:
         model = Snippet
-        fields = ['id', 'user', 'title', 'language', 'highlighted', 'count_likes', 'count_comments']
+        fields = ['id', 'user', 'title', 'description', 'language', 'highlighted', 'count_likes', 'count_comments']
 
 
 class SnippetOfDaySerializer(serializers.ModelSerializer):

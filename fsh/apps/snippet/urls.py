@@ -5,7 +5,6 @@ from fsh.apps.snippet.views import SnippetViewSet, SnippetCommentViewSet, Snippe
 
 router = routers.SimpleRouter()
 router.register(r'snippets', SnippetViewSet)
-router.register(r'snippets_of_day', SnippetOfDaySerializerViewSet)
 router.register(r'comments', SnippetCommentViewSet)
 
 
