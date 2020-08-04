@@ -31,12 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-PYGMENTIFY = {
-    'style': 'algol',
-    'inline': 'table'
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -47,6 +41,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 200,
     'NON_FIELD_ERRORS_KEY': 'global',
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -57,6 +53,11 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': timedelta(days=2),
 }
+
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+REST_USE_JWT = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -69,9 +70,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'rest_auth.registration',
 
     'rest_framework',
-    'pygmentify',
     'corsheaders',
 
     'fsh.apps.snippet',
@@ -116,11 +122,14 @@ WSGI_APPLICATION = 'fsh.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(WORK_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'fsh',
+        'USER': 'fshuser',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
